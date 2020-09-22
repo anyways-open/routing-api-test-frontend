@@ -1,0 +1,33 @@
+{
+  "name": "routing-api-test-frontend",
+  "version": "1.0.0",
+  "description": "A small test frontend for the routing API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anyways-open/routing-api-test-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anyways-open/routing-api-test-frontend/issues"
+  },
+  "homepage": "https://github.com/anyways-open/routing-api-test-frontend#readme",
+  "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^2.0.1",
+    "@turf/turf": "^5.1.6",
+    "@types/mapbox-gl": "^1.7.0",
+    "axios": "^0.20.0",
+    "mapbox-gl": "^1.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3",
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "babel-preset-env": "^1.7.0"
+  }
+}
