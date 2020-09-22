@@ -4,7 +4,9 @@
   "description": "A small test frontend for the routing API.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build --public-url ./ index.html"
   },
   "repository": {
     "type": "git",
@@ -26,8 +28,6 @@
   },
   "devDependencies": {
     "typescript": "^4.0.3",
-    "@babel/core": "^7.11.4",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "babel-preset-env": "^1.7.0"
+    "@babel/core": "^7.11.4"
   }
 }
