@@ -206,6 +206,11 @@ export class RoutingComponent implements IControl {
             select.value = this.profile;
         } else {
             this.profile = profiles[0].type + '.' + profiles[0].name;
+
+            this.events.trigger("profile", {
+                component: this,
+                profile: this.profile
+            });
         }
 
         // hook up the change event
@@ -215,8 +220,8 @@ export class RoutingComponent implements IControl {
             me.profile = select.value;
 
             this.events.trigger("profile", {
-                component: this,
-                profile: select.value
+                component: me,
+                profile: me.profile
             });
 
             me._calculateRoute();
