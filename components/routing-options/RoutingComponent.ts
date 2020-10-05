@@ -3,17 +3,28 @@ import { RoutingApi } from '../../apis/routing-api/RoutingApi';
 import ComponentHtml from '*.html';
 import * as turf from '@turf/turf';
 import { Profile } from '../../apis/routing-api/Profile';
+import { EventsHub } from '../../libs/events/EventsHub';
+import { RoutingComponentEvent } from './RoutingComponentEvent';
 
 export class RoutingComponent implements IControl {
     readonly api: RoutingApi;
     element: HTMLElement;
     map: Map;
     profiles: { id: string, description: string }[];
-    markers: Marker[] = [];
+
+    origin: Marker;
+    destination: Marker;
+
     profile: string;
+
+    events: EventsHub<RoutingComponentEvent> = new EventsHub();
 
     constructor(api: RoutingApi) {
         this.api = api;
+    }
+
+    on(name: string | string[], callback: (args: RoutingComponentEvent) => void) {
+        this.events.on(name, callback);
     }
 
     onAdd(map: mapboxgl.Map): HTMLElement {
@@ -31,26 +42,104 @@ export class RoutingComponent implements IControl {
         return this.element;
     }
 
+    setProfile(profile: string) {
+        this.profile = profile;
+
+        var select = document.getElementById("profiles");
+        if (select) {
+            select.value = this.profile;
+        }
+    }
+
+    setOrigin(l: mapboxgl.LngLatLike) {
+        var me = this;
+
+        if (this.origin) {
+            this.origin.setLngLat(l);
+        } else {
+
+            var marker = new Marker({
+                draggable: true,
+            }).setLngLat(l)
+                .addTo(this.map);
+
+            this.events.trigger("origin", {
+                component: this,
+                marker: marker
+            });
+
+            marker.on("dragend", () => {
+                this.events.trigger("origin", {
+                    component: this,
+                    marker: marker
+                });
+
+                me._calculateRoute();
+            });
+
+            this.origin = marker;
+        }
+
+        if (this.destination) {
+            this._calculateRoute();
+        }
+    }
+
+    setDestination(l: mapboxgl.LngLatLike) {
+        var me = this;
+
+        if (this.destination) {
+            this.destination.setLngLat(l);
+        } else {
+
+            var marker = new Marker({
+                draggable: true,
+            }).setLngLat(l)
+                .addTo(this.map);
+
+            this.events.trigger("destination", {
+                component: this,
+                marker: marker
+            });
+
+            marker.on("dragend", () => {
+                this.events.trigger("destination", {
+                    component: this,
+                    marker: marker
+                });
+
+                me._calculateRoute();
+            });
+
+            this.destination = marker;
+        }
+
+        this._calculateRoute();
+    }
+
     onRemove(map: mapboxgl.Map) {
         throw new Error('Method not implemented.');
     }
     getDefaultPosition?: () => string;
 
     _calculateRoute() {
-        if (this.markers.length < 2) return;
+        if (this.origin && this.destination) { } else { return; }
         if (!this.profile) return;
 
         var locations: { lng: number, lat: number }[] = [];
-        for (var m in this.markers) {
-            var marker = this.markers[m];
-            locations.push(marker.getLngLat());
-        }
+        locations.push(this.origin.getLngLat());
+        locations.push(this.destination.getLngLat());
 
         this.api.getRoute({
             locations: locations,
             profile: this.profile
         }, e => {
             this.map.getSource("route").setData(e);
+
+            this.events.trigger("calculated", {
+                component: this,
+                route: e
+            });
         });
     }
 
@@ -87,19 +176,12 @@ export class RoutingComponent implements IControl {
     _mapClick(e: MapMouseEvent) {
         var me = this;
 
-        if (this.markers.length < 2) {
-            var marker = new Marker({
-                draggable: true,
-            }).setLngLat(e.lngLat)
-                .addTo(this.map);
-            marker.on("dragend", () => {
-                me._calculateRoute();
-            });
-            this.markers.push(marker);
-        }
+        if (this.origin) {
+            this.setDestination(e.lngLat);
 
-        if (this.markers.length >= 2) {
             this._calculateRoute();
+        } else {
+            this.setOrigin(e.lngLat);
         }
     }
 
@@ -119,14 +201,24 @@ export class RoutingComponent implements IControl {
             select.appendChild(option);
         }
 
-        // set the first profile as the default
-        this.profile = profiles[0].type + '.' + profiles[0].name;
+        // set the first profile as the default or select the one that is there.
+        if (this.profile) {
+            select.value = this.profile;
+        } else {
+            this.profile = profiles[0].type + '.' + profiles[0].name;
+        }
 
         // hook up the change event
-        select.addEventListener("change", ()=> {
+        select.addEventListener("change", () => {
             select = document.getElementById("profiles");
 
             me.profile = select.value;
+
+            this.events.trigger("profile", {
+                component: this,
+                profile: select.value
+            });
+
             me._calculateRoute();
         });
     }
