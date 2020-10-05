@@ -12,7 +12,7 @@ var map = new mapboxgl.Map({
     attributionControl: false,
 });
 
-var ra = new RoutingApi("https://staging.anyways.eu/routing-api/", "Vc32GLKD1wjxyiloWhlcFReFor7aAAOz");
+var ra = new RoutingApi("https://routing.anyways.io/api/", "Vc32GLKD1wjxyiloWhlcFReFor7aAAOz");
 var o = new RoutingComponent(ra);
 
 map.addControl(o);

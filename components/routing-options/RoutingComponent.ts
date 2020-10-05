@@ -2,6 +2,7 @@ import mapboxgl, { IControl, Map, MapMouseEvent, Marker } from 'mapbox-gl';
 import { RoutingApi } from '../../apis/routing-api/RoutingApi';
 import ComponentHtml from '*.html';
 import * as turf from '@turf/turf';
+import { Profile } from '../../apis/routing-api/Profile';
 
 export class RoutingComponent implements IControl {
     readonly api: RoutingApi;
@@ -102,7 +103,7 @@ export class RoutingComponent implements IControl {
         }
     }
 
-    _createUI(profiles: string[]) {
+    _createUI(profiles: Profile[]) {
         var me = this;
 
         var componentHtml = ComponentHtml["index"];
@@ -113,13 +114,13 @@ export class RoutingComponent implements IControl {
         for (var p in profiles) {
             var profile = profiles[p];
             var option = document.createElement("option");
-            option.value = profile;
-            option.innerHTML = profile;
+            option.value = profile.type + '.' + profile.name;
+            option.innerHTML = profile.type + '.' + profile.name;
             select.appendChild(option);
         }
 
         // set the first profile as the default
-        this.profile = profiles[0];
+        this.profile = profiles[0].type + '.' + profiles[0].name;
 
         // hook up the change event
         select.addEventListener("change", ()=> {

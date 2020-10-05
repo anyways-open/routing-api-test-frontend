@@ -1,3 +1,5 @@
+import { Profile } from "./Profile";
+
 export interface Profiles {
-    supportedProfiles: string[]
+    supportedProfiles: Profile[]
 }

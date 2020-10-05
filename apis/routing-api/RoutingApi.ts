@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { Profile } from "./Profile";
 import { Profiles } from "./Profiles";
 
 export class RoutingApi {
@@ -10,7 +11,7 @@ export class RoutingApi {
         this.key = key;
     }
 
-    getProfiles(callback: (profiles: string[]) => void) {        
+    getProfiles(callback: (profiles: Profile[]) => void) {        
         var requestConfig: AxiosRequestConfig = {
             baseURL: this.url,
             url: "/profiles",
@@ -20,8 +21,9 @@ export class RoutingApi {
         };
 
         axios(requestConfig).then(response => {
-            var parse = <Profiles>response.data;
-            callback(parse.supportedProfiles);
+            console.log(response);
+            var parse = <Profile[]>response.data;
+            callback(parse);
         }).catch(reason => {
             console.log("getProfiles failed: " + reason);
         }); 
