@@ -146,6 +146,15 @@ export class RoutingComponent implements IControl {
         }, e => {
             this.map.getSource("route").setData(e);
 
+            var distance = document.getElementById("distance");
+            e.features.forEach(f => {
+                if (f && f.properties) {
+                    if (f.properties.distance) {
+                        distance.innerHTML = "" + f.properties.distance + "m";
+                    }
+                }
+            });
+
             this.events.trigger("calculated", {
                 component: this,
                 route: e
@@ -186,7 +195,6 @@ export class RoutingComponent implements IControl {
             }
         }
 
-
         // add layers.
         this.map.addSource("route", {
             type: "geojson",
@@ -207,7 +215,7 @@ export class RoutingComponent implements IControl {
             'paint': {
                 'line-color': '#b3b3ff',
                 'line-width': 8,
-                'line-opacity': 0.7
+                'line-opacity': 0.5
             }
         }, lowestLabel);
     }

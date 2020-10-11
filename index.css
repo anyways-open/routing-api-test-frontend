@@ -24,4 +24,9 @@ body { margin: 0; padding: 0; }
 .marker-destination svg g {
     fill: #ff0000;
 }
+
+.route-details {
+    font-size: larger;
+    margin: 10px;
+}
   
