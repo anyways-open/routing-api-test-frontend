@@ -213,7 +213,12 @@ export class RoutingComponent implements IControl {
             },
             'paint': {
                 'line-color': '#b3b3ff',
-                'line-width': 8,
+                "line-width": [
+                    'interpolate', ['linear'], ['zoom'],
+                    10, 4,
+                    14, 12,
+                    16, 14
+                ],
                 'line-opacity': 0.5
             }
         }, lowestLabel);
