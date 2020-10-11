@@ -235,8 +235,14 @@ export class RoutingComponent implements IControl {
         for (var p in profiles) {
             var profile = profiles[p];
             var option = document.createElement("option");
-            option.value = profile.type + '.' + profile.name;
-            option.innerHTML = profile.type + '.' + profile.name;
+
+            var profileName = profile.type;
+            if (profile.name) {
+                profileName = profile.type + '.' + profile.name;
+            }
+            
+            option.value = profileName
+            option.innerHTML = profileName;
             select.appendChild(option);
         }
 
@@ -244,7 +250,10 @@ export class RoutingComponent implements IControl {
         if (this.profile) {
             select.value = this.profile;
         } else {
-            this.profile = profiles[0].type + '.' + profiles[0].name;
+            this.profile = profiles[0].type;
+            if (profiles[0].name) {
+                this.profile = profiles[0].type + '.' + profiles[0].name;
+            }
 
             this.events.trigger("profile", {
                 component: this,
