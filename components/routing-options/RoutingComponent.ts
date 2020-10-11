@@ -5,6 +5,7 @@ import * as turf from '@turf/turf';
 import { Profile } from '../../apis/routing-api/Profile';
 import { EventsHub } from '../../libs/events/EventsHub';
 import { RoutingComponentEvent } from './RoutingComponentEvent';
+import Partial from './partials/*.html';
 
 export class RoutingComponent implements IControl {
     readonly api: RoutingApi;
@@ -57,9 +58,13 @@ export class RoutingComponent implements IControl {
         if (this.origin) {
             this.origin.setLngLat(l);
         } else {
+            const element = document.createElement("div");
+            element.className = "marker-origin";
+            element.innerHTML = Partial["marker"];
 
-            var marker = new Marker({
+            var marker = new Marker(element, {
                 draggable: true,
+                offset: [0, -20]
             }).setLngLat(l)
                 .addTo(this.map);
 
@@ -91,9 +96,13 @@ export class RoutingComponent implements IControl {
         if (this.destination) {
             this.destination.setLngLat(l);
         } else {
+            const element = document.createElement("div");
+            element.className = "marker-destination";
+            element.innerHTML = Partial["marker"];
 
-            var marker = new Marker({
+            var marker = new Marker(element, {
                 draggable: true,
+                offset: [0, -20]
             }).setLngLat(l)
                 .addTo(this.map);
 
@@ -118,8 +127,9 @@ export class RoutingComponent implements IControl {
     }
 
     onRemove(map: mapboxgl.Map) {
-        throw new Error('Method not implemented.');
+
     }
+
     getDefaultPosition?: () => string;
 
     _calculateRoute() {
@@ -149,6 +159,34 @@ export class RoutingComponent implements IControl {
             this._createUI(profiles);
         });
 
+        // get lowest label and road.
+        var style = this.map.getStyle();
+        var lowestRoad = undefined;
+        var lowestLabel = undefined;
+        var lowestSymbol = undefined;
+        for (var l = 0; l < style.layers.length; l++) {
+            var layer = style.layers[l];
+
+            if (layer && layer["source-layer"] === "transportation") {
+                if (!lowestRoad) {
+                    lowestRoad = layer.id;
+                }
+            }
+
+            if (layer && layer["source-layer"] === "transportation_name") {
+                if (!lowestLabel) {
+                    lowestLabel = layer.id;
+                }
+            }
+
+            if (layer && layer.type == "symbol") {
+                if (!lowestSymbol) {
+                    lowestSymbol = layer.id;
+                }
+            }
+        }
+
+
         // add layers.
         this.map.addSource("route", {
             type: "geojson",
@@ -167,10 +205,11 @@ export class RoutingComponent implements IControl {
                 'line-cap': 'round'
             },
             'paint': {
-                'line-color': '#888',
-                'line-width': 4
+                'line-color': '#b3b3ff',
+                'line-width': 8,
+                'line-opacity': 0.7
             }
-        });
+        }, lowestLabel);
     }
 
     _mapClick(e: MapMouseEvent) {
