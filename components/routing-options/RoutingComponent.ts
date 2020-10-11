@@ -5,7 +5,6 @@ import * as turf from '@turf/turf';
 import { Profile } from '../../apis/routing-api/Profile';
 import { EventsHub } from '../../libs/events/EventsHub';
 import { RoutingComponentEvent } from './RoutingComponentEvent';
-import Partial from './partials/*.html';
 
 export class RoutingComponent implements IControl {
     readonly api: RoutingApi;
@@ -60,7 +59,7 @@ export class RoutingComponent implements IControl {
         } else {
             const element = document.createElement("div");
             element.className = "marker-origin";
-            element.innerHTML = Partial["marker"];
+            element.innerHTML = ComponentHtml["marker"];
 
             var marker = new Marker(element, {
                 draggable: true,
@@ -98,7 +97,7 @@ export class RoutingComponent implements IControl {
         } else {
             const element = document.createElement("div");
             element.className = "marker-destination";
-            element.innerHTML = Partial["marker"];
+            element.innerHTML = ComponentHtml["marker"];
 
             var marker = new Marker(element, {
                 draggable: true,
