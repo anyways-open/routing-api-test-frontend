@@ -59,7 +59,7 @@ export class RoutingComponent implements IControl {
         } else {
             const element = document.createElement("div");
             element.className = "marker-origin";
-            element.innerHTML = ComponentHtml["marker"];
+            element.innerHTML = ComponentHtml["marker-test1"];
 
             var marker = new Marker(element, {
                 draggable: true,
@@ -97,7 +97,7 @@ export class RoutingComponent implements IControl {
         } else {
             const element = document.createElement("div");
             element.className = "marker-destination";
-            element.innerHTML = ComponentHtml["marker"];
+            element.innerHTML = ComponentHtml["marker-test1"];
 
             var marker = new Marker(element, {
                 draggable: true,
