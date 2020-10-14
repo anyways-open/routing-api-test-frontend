@@ -25,7 +25,7 @@ if (typeof urlState.map !== "undefined") {
 
 const map = new Map({
     container: 'map',
-    style: 'https://api.maptiler.com/maps/3327a63f-c15d-462a-9f23-ebf73a14254a/style.json?key=2Piy1GKXoXq0rHzzBVDA',
+    style: 'https://api.maptiler.com/maps/basic/style.json?key=2Piy1GKXoXq0rHzzBVDA',
     center: mapState.center,
     zoom: mapState.zoom,
     preserveDrawingBuffer: true,
