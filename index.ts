@@ -97,11 +97,11 @@ map.on("load", e => {
 
     map.addSource('cyclenetworks-tiles', {
         type: 'vector',
-        url: 'https://routing.anyways.eu/vector-tiles/cyclenetworks/mvt.json'
+        url: 'https://api.anyways.eu/tiles/cyclenetworks/mvt.json'
     });
 
     map.addLayer({
-        "id": "cyclenetworks",
+        "id": "cycle-highways",
         "type": "line",
         "source": "cyclenetworks-tiles",
         "source-layer": "cyclenetwork",
@@ -123,8 +123,8 @@ map.on("load", e => {
             "all",
             [
                 "==",
-                "$type",
-                "LineString"
+                "cycle_network",
+                "cycle_highway"
             ]
         ]
     }, lowestLabel);
