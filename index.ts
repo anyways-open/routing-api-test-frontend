@@ -100,6 +100,37 @@ map.on("load", e => {
         url: 'https://api.anyways.eu/tiles/cyclenetworks/mvt.json'
     });
 
+    var nodesColor = "#000099";
+
+    map.addLayer({
+        "id": "cycle-node-network",
+        "type": "line",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenetwork",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": nodesColor,
+            "line-width": [
+                'interpolate', ['linear'], ['zoom'],
+                10, 1,
+                13, 2,
+                16, 4
+            ],
+            "line-opacity": 1
+        },
+        "filter": [
+            "all",
+            [
+                "==",
+                "network:type",
+                "node_network"
+            ]
+        ]
+    }, lowestLabel);
+
     map.addLayer({
         "id": "cycle-highways",
         "type": "line",
@@ -113,9 +144,9 @@ map.on("load", e => {
             "line-color": "#ff0000",
             "line-width": [
                 'interpolate', ['linear'], ['zoom'],
-                10, 1,
-                13, 2,
-                16, 4
+                10, 2,
+                13, 4,
+                16, 8
             ],
             "line-opacity": 1
         },
@@ -128,6 +159,58 @@ map.on("load", e => {
             ]
         ]
     }, lowestLabel);
+
+    map.addLayer({
+        "id": "cyclenodes-circles",
+        "type": "circle",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenodes",
+        "minzoom": 11,
+        "layout": {
+            "visibility": "visible"
+        },
+        "paint": {
+            "circle-stroke-width": 2,
+            "circle-stroke-color": nodesColor,
+            "circle-radius": 10,
+            "circle-color": "#000000",
+            "circle-opacity": 0
+        }
+    });
+
+    map.addLayer({
+        "id": "cyclenodes-circles-center",
+        "type": "circle",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenodes",
+        "minzoom": 11,
+        "layout": {
+            "visibility": "visible"
+        },
+        "paint": {
+            "circle-radius": 10,
+            "circle-color": "#FFFFFF"
+        }
+    });
+
+    map.addLayer({
+        "id": "cyclenodes-labels",
+        "type": "symbol",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenodes",
+        "minzoom": 11,
+        "layout": {
+            "visibility": "visible",
+            "text-field": "{rcn_ref}",
+            "text-size": 13
+        },
+        "paint": {
+            "text-color": nodesColor,
+            "text-halo-color": "#FFFFFF",
+            "text-halo-width": 2,
+            "text-halo-blur": 0
+        }
+    });
 })
 
 rc.on('origin', c => {
