@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Login to Dock Hub
-      run: docker login -u anywaysopen --password ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u anywaysopen --password-stdin
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag anywaysopen/routing-api-test-frontend:prod
     - name: Push Docker image.
