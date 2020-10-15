@@ -32,7 +32,7 @@ export class RoutingApi {
     getRoute(options: { locations: { lng: number, lat: number }[], profile: string }, callback: (route: any) => void) {
         var requestConfig: AxiosRequestConfig = {
             baseURL: this.url,
-            url: "/route",
+            url: "/v1/routes",
             params: {
                 apiKey: this.key,
                 locations: options.locations,
