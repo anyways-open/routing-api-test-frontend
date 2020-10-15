@@ -14,7 +14,7 @@ export class RoutingApi {
     getProfiles(callback: (profiles: Profile[]) => void) {        
         var requestConfig: AxiosRequestConfig = {
             baseURL: this.url,
-            url: "/profiles",
+            url: "/v1/profiles",
             params: {
                 apiKey: this.key
             }
