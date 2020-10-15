@@ -1,6 +1,6 @@
 import { Map, LngLatLike, AttributionControl } from 'mapbox-gl';
 import { RoutingApi } from './apis/routing-api/RoutingApi';
-import { OsmAttributionComponent, OsmAttributionControl } from './components/osm-attribution-control/OsmAttributionControl';
+// import { OsmAttributionComponent, OsmAttributionControl } from './components/osm-attribution-control/OsmAttributionControl';
 import { RoutingComponent } from './components/routing-options/RoutingComponent';
 import "./components/routing-options/RoutingComponent.css";
 import { UrlHash } from './components/url-hash/UrlHash';
@@ -36,11 +36,11 @@ const map = new Map({
 const ra = new RoutingApi("https://routing.anyways.io/api/", "Vc32GLKD1wjxyiloWhlcFReFor7aAAOz");
 const rc = new RoutingComponent(ra);
 
-const osmAttributionControl = new OsmAttributionControl({
-    compact: false,
-    customAttribution: "<a href=\"https://www.anyways.eu/cycling-app.html\">ANYWAYS BV</a>"
-});   
-map.addControl(osmAttributionControl);    
+// const osmAttributionControl = new OsmAttributionControl({
+//     compact: false,
+//     customAttribution: "<a href=\"https://www.anyways.eu/cycling-app.html\">ANYWAYS BV</a>"
+// });   
+// map.addControl(osmAttributionControl);    
 
 map.on("load", e => {
     if (typeof urlState.p !== "undefined") {
