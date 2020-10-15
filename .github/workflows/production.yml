@@ -14,9 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag anywaysopen/routing-api-test-frontend:prod
     - name: Login to Dock Hub
       run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u anywaysopen --password-stdin
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag anywaysopen/routing-api-test-frontend:prod
     - name: Push Docker image.
       run: docker push anywaysopen/routing-api-test-frontend:prod
