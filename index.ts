@@ -176,6 +176,39 @@ map.on("load", e => {
     }, lowestLabel);
 
     map.addLayer({
+        "id": "cycle-network-antwerp",
+        "type": "line",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenetwork",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "#00cc00",
+            "line-width": [
+                'interpolate', ['linear'], ['zoom'],
+                10, 3,
+                12, 6,
+                16, 25
+            ],
+            "line-opacity": [
+                'interpolate', ['linear'], ['zoom'],
+                12, 1,
+                13, 0.4
+            ],
+        },
+        "filter": [
+            "all",
+            [
+                "==",
+                "operator",
+                "Stad Antwerpen"
+            ]
+        ]
+    }, lowestLabel);
+
+    map.addLayer({
         "id": "cyclenodes-circles",
         "type": "circle",
         "source": "cyclenetworks-tiles",
