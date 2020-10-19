@@ -54,6 +54,14 @@ const layerControl = new LayerControl([{
 {
     name: "Functioneel netwerk Stad Antwerpen",
     layers: [ "cycle-network-antwerp" ]
+},
+{
+    name: "Netwerk Stad Genk",
+    layers: [ "cycle-network-genk" ]
+},
+{
+    name: "Netwerk Brussels Gewest",
+    layers: [ "cycle-network-brussels" ]
 }]);
 map.addControl(layerControl, 'top-left');
 
@@ -224,6 +232,80 @@ map.on("load", e => {
                 "==",
                 "network",
                 "lcn"
+            ]
+        ]
+    }, lowestLabel);
+
+    map.addLayer({
+        "id": "cycle-network-genk",
+        "type": "line",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenetwork",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": ['get', 'colour'],
+            "line-width": [
+                'interpolate', ['linear'], ['zoom'],
+                10, 2,
+                13, 4,
+                16, 10
+            ],
+            "line-opacity":[
+                'interpolate', ['linear'], ['zoom'],
+                12, 1,
+                13, 0.4
+            ]
+        },
+        "filter": [
+            "all",
+            [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all",
+                [
+                    "==",
+                    "operator",
+                    "Stad Genk"
+                ]
+            ]
+        ]
+    }, lowestLabel);
+
+    map.addLayer({
+        "id": "cycle-network-brussels",
+        "type": "line",
+        "source": "cyclenetworks-tiles",
+        "source-layer": "cyclenetwork",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": ['get', 'colour'],
+            "line-width": [
+                'interpolate', ['linear'], ['zoom'],
+                10, 2,
+                13, 4,
+                16, 10
+            ],
+            "line-opacity":[
+                'interpolate', ['linear'], ['zoom'],
+                12, 1,
+                13, 0.4
+            ]
+        },
+        "filter": [
+            "all",
+            [
+                "==",
+                "operator",
+                "Brussels Mobility"
             ]
         ]
     }, lowestLabel);
