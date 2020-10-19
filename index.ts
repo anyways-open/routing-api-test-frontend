@@ -1,6 +1,7 @@
 import { Map, LngLatLike, AttributionControl } from 'mapbox-gl';
 import { RoutingApi } from './apis/routing-api/RoutingApi';
-import { OsmAttributionComponent, OsmAttributionControl } from './components/osm-attribution-control/OsmAttributionControl';
+import { LayerControl } from './components/layer-control/LayerControl';
+import { OsmAttributionControl } from './components/osm-attribution-control/OsmAttributionControl';
 import { RoutingComponent } from './components/routing-options/RoutingComponent';
 import "./components/routing-options/RoutingComponent.css";
 import { UrlHash } from './components/url-hash/UrlHash';
@@ -41,6 +42,20 @@ const osmAttributionControl = new OsmAttributionControl({
     customAttribution: "<a href=\"https://www.anyways.eu/cycling-app.html\">ANYWAYS BV</a>"
 });   
 map.addControl(osmAttributionControl);    
+
+const layerControl = new LayerControl([{
+    name: "Knooppunten",
+    layers: [ "cycle-node-network", "cyclenodes-circles", "cyclenodes-circles-center", "cyclenodes-labels" ] 
+},
+{
+    name: "Fietssnelwegen",
+    layers: [ "cycle-highways" ]
+},
+{
+    name: "Functioneel netwerk Stad Antwerpen",
+    layers: [ "cycle-network-antwerp" ]
+}]);
+map.addControl(layerControl, 'top-left');
 
 map.on("load", e => {
     if (typeof urlState.p !== "undefined") {
@@ -200,10 +215,15 @@ map.on("load", e => {
         },
         "filter": [
             "all",
+            // [
+            //     "==",
+            //     "operator",
+            //     "Stad Antwerpen"
+            // ]            
             [
                 "==",
-                "operator",
-                "Stad Antwerpen"
+                "network",
+                "lcn"
             ]
         ]
     }, lowestLabel);
