@@ -223,15 +223,10 @@ map.on("load", e => {
         },
         "filter": [
             "all",
-            // [
-            //     "==",
-            //     "operator",
-            //     "Stad Antwerpen"
-            // ]            
             [
-                "==",
-                "network",
-                "lcn"
+                 "==",
+                 "operator",
+                 "Stad Antwerpen"
             ]
         ]
     }, lowestLabel);
