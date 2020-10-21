@@ -1,4 +1,4 @@
-import { Map, LngLatLike, AttributionControl } from 'mapbox-gl';
+import { Map, LngLatLike } from 'mapbox-gl';
 import { RoutingApi } from './apis/routing-api/RoutingApi';
 import { LayerControl } from './components/layer-control/LayerControl';
 import { OsmAttributionControl } from './components/osm-attribution-control/OsmAttributionControl';
@@ -34,7 +34,16 @@ const map = new Map({
     attributionControl: false,
 });
 
-const ra = new RoutingApi("https://routing.anyways.io/api/", "Vc32GLKD1wjxyiloWhlcFReFor7aAAOz");
+let routingEndpoint = "https://routing.anyways.eu/api/";
+if(urlState.host === "staging"){
+	console.log("Using staging server");
+	routingEndpoint = "https://staging.anyways.eu/routing-api/";
+}else if(urlState.host === "debug"){
+	console.log("Using localhost server - you might want to disable CORS-rules");
+	routingEndpoint = "http://localhost:5000/"
+}
+
+const ra = new RoutingApi(routingEndpoint, "Vc32GLKD1wjxyiloWhlcFReFor7aAAOz");
 const rc = new RoutingComponent(ra);
 
 const osmAttributionControl = new OsmAttributionControl({
