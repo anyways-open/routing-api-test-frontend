@@ -65,7 +65,8 @@ export class LayerControl implements IControl {
         this.layers.forEach(l => {
             var layerButton = document.createElement("a");
             layerButton.href.link("#");
-            layerButton.classList.add("button");
+            layerButton.classList.add("btn");
+            layerButton.type = "button";
             layerButton.innerHTML = l.name;
             if (l.visible) {
                 layerButton.classList.add("active");

@@ -44,23 +44,23 @@ const osmAttributionControl = new OsmAttributionControl({
 map.addControl(osmAttributionControl);    
 
 const layerControl = new LayerControl([{
-    name: "Knooppunten",
+    name: "Node Networks",
     layers: [ "cycle-node-network", "cyclenodes-circles", "cyclenodes-circles-center", "cyclenodes-labels" ] 
 },
 {
-    name: "Fietssnelwegen",
+    name: "Cycle Highways",
     layers: [ "cycle-highways" ]
 },
 {
-    name: "Functioneel netwerk Stad Antwerpen",
+    name: "Functional Network Antwerp",
     layers: [ "cycle-network-antwerp" ]
 },
 {
-    name: "Netwerk Stad Genk",
+    name: "Network Genk",
     layers: [ "cycle-network-genk" ]
 },
 {
-    name: "Netwerk Brussels Gewest",
+    name: "Network Brussels Region",
     layers: [ "cycle-network-brussels" ]
 }]);
 map.addControl(layerControl, 'top-left');
