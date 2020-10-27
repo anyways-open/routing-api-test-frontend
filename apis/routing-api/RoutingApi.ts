@@ -21,7 +21,6 @@ export class RoutingApi {
         };
 
         axios(requestConfig).then(response => {
-            console.log("Profiles response", response);
             if(response.data.profiles){
                 // In an older version of the API, the API gave a list for the profiles
                 // But the profiles had to be encapsulated...
