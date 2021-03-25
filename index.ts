@@ -35,13 +35,21 @@ const map = new Map({
 });
 
 let routingEndpoint = "https://routing.anyways.eu/api/";
-if(urlState.host === "staging"){
-	console.log("Using staging server");
-	routingEndpoint = "https://staging.anyways.eu/routing-api/";
-}else if(urlState.host === "debug"){
-	console.log("Using localhost server - you might want to disable CORS-rules");
-	routingEndpoint = "http://localhost:5000/"
+switch(urlState.host){
+    case "staging":
+        console.log("Using staging server");
+        routingEndpoint = "https://staging.anyways.eu/routing-api/";
+        break;
+    case "staging2":
+        console.log("Using staging 2.0 server");
+        routingEndpoint = "http://staging.anyways.eu:8003/routing-api/";
+        break;
+    case "debug":
+        console.log("Using localhost server - you might want to disable CORS-rules");
+        routingEndpoint = "http://localhost:5000/";
+        break;
 }
+console.log("Routing endpoint is ", routingEndPoint);
 
 const ra = new RoutingApi(routingEndpoint, "Vc32GLKD1wjxyiloWhlcFReFor7aAAOz");
 const rc = new RoutingComponent(ra);
